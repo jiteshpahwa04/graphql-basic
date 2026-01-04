@@ -23,6 +23,19 @@ const todos = [
         task: "Celebrate",
         completed: false
     }
+];
+
+const users = [
+    {
+        id: 1,
+        name: "Jitesh",
+        todos: [todos[0], todos[1]]
+    },
+    {
+        id: 2,
+        name: "Alice",
+        todos: [todos[2], todos[3]]
+    }
 ]
 
 // gql -> Graphql query language
@@ -33,9 +46,16 @@ const typeDefs = gql`
         completed: Boolean!
     }
 
+    type User {
+        id: ID!
+        name: String!
+        todos: [Todo]!
+    }
+
     type Query {
         getAllTodos: [Todo],
-        getTodo(id: ID!): Todo
+        getTodo(id: ID!): Todo!,
+        getUsers: [User]!
     }
 `;
 
@@ -49,6 +69,9 @@ const resolvers = {
         },
         getTodo: (_, params) => {
             return todos.find(todo => todo.id == params.id);
+        },
+        getUsers: () => {
+            return users;
         }
     }
 }
