@@ -28,13 +28,14 @@ const todos = [
 // gql -> Graphql query language
 const typeDefs = gql`
     type Todo {
-        id: ID
-        task: String
-        completed: Boolean
+        id: ID!
+        task: String!
+        completed: Boolean!
     }
 
     type Query {
-        getAllTodos: [Todo]
+        getAllTodos: [Todo],
+        getTodo(id: ID!): Todo
     }
 `;
 
@@ -45,6 +46,9 @@ const resolvers = {
     Query: {
         getAllTodos: () => {
             return todos;
+        },
+        getTodo: (_, params) => {
+            return todos.find(todo => todo.id == params.id);
         }
     }
 }
